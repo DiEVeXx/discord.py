@@ -4,12 +4,14 @@ import js2py as js2py
 import discord
 from discord.ext import commands
 import random
+from Naked.toolshed.shell import execute_js
+
 
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
 
 There are a number of utility commands being showcased here.'''
-bot = commands.Bot(command_prefix='pls', description=description)
+bot = commands.Bot(command_prefix='pls ', description=description)
 
 
 @bot.event
@@ -21,23 +23,29 @@ async def on_ready():
 
 
 @bot.command()
-async def porn():
+async def porn(ctx):
     """
     Source Js2Py: https://github.com/PiotrDabkowski/Js2Py
     Source Pornsearch: https://github.com/LucasLeandro1204/Pornsearch
     Returns ¿gif???
     -------
-
     """
-    PornSearch = js2py.require('pornsearch')
-    'const Pornsearch = require(\'pornsearch\').search(\'ass\'); \
-    Pornsearch.gifs().then(gifs => console.log(gifs));'
+    # USANDO LIBRERIA NAKED
+    gif = execute_js('./Pornsearch/src/Pornsearch.js.search(\'porn\').gifs()')
+
+    # USANDO js2py peta
+    #PornSearch = js2py.require('pornsearch')
+    #gif = execute_js(PornSearch.search('porn').gifs())
+    #gif = PornSearch.gifs()
+    await ctx.send(gif)
+    #'const Pornsearch = require(\'pornsearch\').search(\'ass\'); \
+    #Pornsearch.gifs().then(gifs => console.log(gifs));'
 
 # SOME BOT COMMAND EXAMPLES
-# @bot.command()
-# async def add(ctx, left: int, right: int):
-#     """Adds two numbers together."""
-#     await ctx.send(left + right)
+@bot.command()
+async def add(ctx, left: int, right: int):
+    """Adds two numbers together."""
+    await ctx.send(left + right)
 #
 #
 # @bot.command()
@@ -91,3 +99,4 @@ async def porn():
 token = os.getenv('token')
 print(token)
 bot.run(token)
+print('heeeelp')
