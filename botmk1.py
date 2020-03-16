@@ -25,7 +25,7 @@ async def porn():
     """
     Source Js2Py: https://github.com/PiotrDabkowski/Js2Py
     Source Pornsearch: https://github.com/LucasLeandro1204/Pornsearch
-    Returns ¿gif?
+    Returns ¿gif???
     -------
 
     """
