@@ -16,10 +16,9 @@ bot = commands.Bot(command_prefix='pls ', description=description)
 
 @bot.event
 async def on_ready():
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('------')
+    print('-' * 10)
+    print('My name is {} and my user id is {}'.format(bot.user.name, bot.user.id))
+    print('-' * 10)
 
 
 @bot.command()
@@ -30,14 +29,18 @@ async def porn(ctx):
     Returns ¿gif???
     -------
     """
+    # USANDO SUBPROCESS
+    #from subprocess import call
+    #call(["node", "./Pornsearch/src/Pornsearch"])
+
     # USANDO LIBRERIA NAKED
-    gif = execute_js('./Pornsearch/src/Pornsearch.js.search(\'porn\').gifs()')
+    # gif = execute_js('./Pornsearch/src/Pornsearch.js.search(\'porn\').gifs()')
 
     # USANDO js2py peta
-    #PornSearch = js2py.require('pornsearch')
+    PornSearch = js2py.require('pornsearch')
     #gif = execute_js(PornSearch.search('porn').gifs())
     #gif = PornSearch.gifs()
-    await ctx.send(gif)
+    #await ctx.send(gif)
     #'const Pornsearch = require(\'pornsearch\').search(\'ass\'); \
     #Pornsearch.gifs().then(gifs => console.log(gifs));'
 
@@ -97,6 +100,5 @@ async def add(ctx, left: int, right: int):
 #
 
 token = os.getenv('token')
-print(token)
+# print(token)
 bot.run(token)
-print('heeeelp')
