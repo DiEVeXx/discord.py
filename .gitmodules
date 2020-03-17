@@ -1,3 +1,6 @@
 [submodule "Pornsearch"]
 	path = Pornsearch
 	url = https://github.com/LucasLeandro1204/Pornsearch.git
+[submodule "Js2Py"]
+	path = Js2Py
+	url = https://github.com/PiotrDabkowski/Js2Py.git

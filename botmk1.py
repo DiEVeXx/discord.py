@@ -1,7 +1,5 @@
 import os
 # Discord imports
-import colorlog as colorlog
-
 import discord
 from discord.ext import commands
 
@@ -98,6 +96,8 @@ async def add(ctx, left: int, right: int):
 #     """Is the bot cool?"""
 #     await ctx.send('Yes, the bot is cool.')
 
-token = os.getenv('token')
+# token = os.getenv('token')
+token='MTc1NTE4NDA3ODg4ODYzMjMy.XnD2EQ.TCUcEMKDeSdn0d5qNbEZBScnhjc'
+
 # print(token)
 bot.run(token)
