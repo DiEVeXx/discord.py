@@ -1,11 +1,18 @@
 import os
+# Discord imports
+import colorlog as colorlog
 
-import js2py as js2py
 import discord
 from discord.ext import commands
+
+# External libraries
+import js2py as js2py
 import random
 from Naked.toolshed.shell import execute_js
 
+# Logger library
+from utils.color_logger import *
+logger = colorlog.getLogger("Main")
 
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
