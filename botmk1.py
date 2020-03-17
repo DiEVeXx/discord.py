@@ -12,10 +12,11 @@ from Naked.toolshed.shell import execute_js
 
 # Logger library
 from utils.color_logger import *
+
 logger = colorlog.getLogger("Main")
 
-description = '''An example bot to showcase the discord.ext.commands extension
-module.
+description = \
+    '''An example bot to showcase the discord.ext.commands extension module.
 
 There are a number of utility commands being showcased here.'''
 bot = commands.Bot(command_prefix='pls ', description=description)
@@ -23,9 +24,9 @@ bot = commands.Bot(command_prefix='pls ', description=description)
 
 @bot.event
 async def on_ready():
-    print('-' * 10)
-    print('My name is {} and my user id is {}'.format(bot.user.name, bot.user.id))
-    print('-' * 10)
+    logger.info('-' * 10)
+    logger.info('My name is {} and my user id is {}'.format(bot.user.name, bot.user.id))
+    logger.info('-' * 10)
 
 
 @bot.command()
@@ -36,6 +37,7 @@ async def porn(ctx):
     Returns ¿gif???
     -------
     """
+    await ctx.send('Pero que tonto eres!')
 
 
 # SOME BOT COMMAND EXAMPLES
@@ -43,6 +45,8 @@ async def porn(ctx):
 async def add(ctx, left: int, right: int):
     """Adds two numbers together."""
     await ctx.send(left + right)
+
+
 #
 #
 # @bot.command()
