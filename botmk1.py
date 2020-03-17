@@ -37,6 +37,8 @@ async def porn(ctx):
     Returns ¿gif???
     -------
     """
+    pornsearch = js2py.require('pornsearch')
+
     await ctx.send('Pero que tonto eres!')
 
 
