@@ -1,19 +1,16 @@
-import os
+
 # Discord imports
+import os
+
 import discord
 from discord.ext import commands
-import requests
 # External libraries
+import requests
 import js2py
 import random
-from Naked.toolshed.shell import execute_js
-from lxml import etree
-from io import StringIO
 # Logger library
+from image_importer import get_images_from_url
 from utils.color_logger import *
-
-# promise
-from promise import Promise, promise
 
 logger = colorlog.getLogger("Main")
 
@@ -33,36 +30,16 @@ async def on_ready():
 
 @bot.command()
 async def porn(ctx):
-
-    """
-    Source Js2Py: https://github.com/PiotrDabkowski/Js2Py
-    Source Pornsearch: https://github.com/LucasLeandro1204/Pornsearch
-    Returns ¿gif???
-    -------
-    """
     query = 'porn'
     page = '1'
+    #url = 'http://www.pornhub.com/gifs/search?search='+query+'&page='+page
     url = 'http://www.sex.com/search/gifs?query='+query+'&page='+page
-    r = requests.get(url=url)
-    html = r.content.decode("utf-8")
+    #r = requests.get(url=url)
+    imgs = get_images_from_url(url)
+    for img in imgs:
+        logger.info(f"img contents:\n{img}")
 
-    # Create your etree with a StringIO object which functions similarly
-    # to a fileHandler
-    tree = etree.parse(StringIO(html), parser=parser)
-
-    # Call this function and pass in your tree
-    def get_links(tree):
-        # This will get the anchor tags <a href...>
-        refs = tree.xpath("//a")
-        # Get the url from the ref
-        links = [link.get('href', '') for link in refs]
-        # Return a list that only ends with .com.br
-        return [l for l in links if l.endswith('.com.br')]
-
-    # Example call
-    links = get_links(tree)
-    logger.info(f"{r.status_code}{r.content}")
-    await ctx.send('Pero que tonto eres!')
+    await ctx.send('Toma enfermito!\nPero que tonto eres!\n{}'.format(imgs[random.randint(0, len(imgs)-1)]))
 
 
 # SOME BOT COMMAND EXAMPLES
@@ -122,6 +99,5 @@ async def add(ctx, left: int, right: int):
 #     await ctx.send('Yes, the bot is cool.')
 
 Pornsearch = js2py.require('pornsearch')
-# token = os.getenv('token')
-token = 'MTc1NTE4NDA3ODg4ODYzMjMy.XnEKEA.BhuPxdOS5pqTSu-WjeQIggT__Y0'
+token = os.getenv('token')
 bot.run(token)
