@@ -29,20 +29,7 @@ async def porn(ctx):
     Returns ¿gif???
     -------
     """
-    # USANDO SUBPROCESS
-    #from subprocess import call
-    #call(["node", "./Pornsearch/src/Pornsearch"])
 
-    # USANDO LIBRERIA NAKED
-    # gif = execute_js('./Pornsearch/src/Pornsearch.js.search(\'porn\').gifs()')
-
-    # USANDO js2py peta
-    PornSearch = js2py.require('pornsearch')
-    #gif = execute_js(PornSearch.search('porn').gifs())
-    #gif = PornSearch.gifs()
-    #await ctx.send(gif)
-    #'const Pornsearch = require(\'pornsearch\').search(\'ass\'); \
-    #Pornsearch.gifs().then(gifs => console.log(gifs));'
 
 # SOME BOT COMMAND EXAMPLES
 @bot.command()
@@ -97,7 +84,6 @@ async def add(ctx, left: int, right: int):
 # async def _bot(ctx):
 #     """Is the bot cool?"""
 #     await ctx.send('Yes, the bot is cool.')
-#
 
 token = os.getenv('token')
 # print(token)
