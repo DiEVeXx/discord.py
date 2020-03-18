@@ -1,5 +1,5 @@
-
 # Discord imports
+import asyncio
 import os
 
 import discord
@@ -29,17 +29,28 @@ async def on_ready():
 
 
 @bot.command()
-async def porn(ctx):
-    query = 'porn'
-    page = '1'
-    #url = 'http://www.pornhub.com/gifs/search?search='+query+'&page='+page
-    url = 'http://www.sex.com/search/gifs?query='+query+'&page='+page
-    #r = requests.get(url=url)
-    imgs = get_images_from_url(url)
-    for img in imgs:
-        logger.info(f"img contents:\n{img}")
+async def porn(ctx, query='sex'):
+    page = str(random.randint(0,10))
+    video_urls = [
+        #'http://www.motherless.com/term/videos/' + query + '?page=' + page,
+        'http://www.pornhub.com/gifs/search?search=' + query + '&page=' + page,
+        #'https://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&search=' + query + '&thumbsize=big&page=' + page,
+        #'http://www.sex.com/search/videos?query=' + query + '&page=' + page,
+        #'https://www.xvideos.com/?k=' + query + '&p=' + page,
+        #'http://www.youporn.com/search/?query=' + page + '&page=' + page
+    ]
 
-    await ctx.send('Toma enfermito!\nPero que tonto eres!\n{}'.format(imgs[random.randint(0, len(imgs)-1)]))
+    gif_urls = [
+        'http://www.sex.com/search/gifs?query='+query+'&page='+page
+    ]
+    imgs = get_images_from_url(video_urls[random.randint(0, len(video_urls) - 1)])
+    await asyncio.sleep(1)
+    if len(imgs) == 0:
+        await ctx.send('No hay porno pa ti enfermito!')
+    else:
+        # for img in imgs:
+            # logger.info(f"img contents:\n{img}")
+        await ctx.send('{}\nToma enfermito!'.format(imgs[random.randint(0, len(imgs) - 1)]))
 
 
 # SOME BOT COMMAND EXAMPLES
@@ -98,6 +109,5 @@ async def add(ctx, left: int, right: int):
 #     """Is the bot cool?"""
 #     await ctx.send('Yes, the bot is cool.')
 
-Pornsearch = js2py.require('pornsearch')
 token = os.getenv('token')
 bot.run(token)
