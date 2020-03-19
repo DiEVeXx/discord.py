@@ -29,28 +29,41 @@ async def on_ready():
 
 
 @bot.command()
-async def porn(ctx, query='sex'):
-    page = str(random.randint(0,10))
+async def porn(ctx, query='porn', _type='video'):
+    await ctx.send('mmmm...')
+    video, url = find_porn(ctx, query, _type)
+    try:
+        if len(video) == 0:
+            await ctx.send('No encuentro')
+        else:
+            # for img in imgs:
+            #    logger.info(f"img contents:\n{img}")
+            await ctx.send(video[random.randint(0, len(video) - 1)])
+            await ctx.send(url)
+    except Exception as e:
+        await ctx.send()
+
+
+def find_porn(ctx, query, _type='video'):
+    page = str(random.randint(0, 10))
     video_urls = [
-        #'http://www.motherless.com/term/videos/' + query + '?page=' + page,
-        'http://www.pornhub.com/gifs/search?search=' + query + '&page=' + page,
-        #'https://api.redtube.com/?data=redtube.Videos.searchVideos&output=json&search=' + query + '&thumbsize=big&page=' + page,
-        #'http://www.sex.com/search/videos?query=' + query + '&page=' + page,
-        #'https://www.xvideos.com/?k=' + query + '&p=' + page,
-        #'http://www.youporn.com/search/?query=' + page + '&page=' + page
+        #'http://www.pornhub.com/videos/search?search=' + query + '&page=' + page,
+        'https://es.redtube.com/?search='+query+'&page='+page,
+        #'https://redtube.com/?data=redtube.Videos.searchVideos&search=' + query + '&thumbsize=big&page=' + page,
+        # 'http://www.sex.com/search/videos?query=' + query + '&page=' + page,
+        ## 'https://www.xvideos.com/?k=' + query + '&p=' + page,
+        # 'http://www.youporn.com/search/?query=' + page + '&page=' + page
     ]
 
     gif_urls = [
-        'http://www.sex.com/search/gifs?query='+query+'&page='+page
+        'http://www.sex.com/search/gifs?query=' + query + '&page=' + page,
+        'http://www.gifsfor.com/porngifs/' + query + '/page/' + page + '/'
     ]
-    imgs = get_images_from_url(video_urls[random.randint(0, len(video_urls) - 1)])
-    await asyncio.sleep(1)
-    if len(imgs) == 0:
-        await ctx.send('No hay porno pa ti enfermito!')
-    else:
-        # for img in imgs:
-            # logger.info(f"img contents:\n{img}")
-        await ctx.send('{}\nToma enfermito!'.format(imgs[random.randint(0, len(imgs) - 1)]))
+
+    url = video_urls if _type == 'video' else gif_urls
+
+    return get_images_from_url(url[random.randint(0, len(url)-1)])
+
 
 
 # SOME BOT COMMAND EXAMPLES
