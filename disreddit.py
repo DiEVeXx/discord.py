@@ -4,27 +4,21 @@ import random
 import os
 import urllib.request as req
 import time
-from utils.color_logger import *
-logger = colorlog.getLogger("Main")
-# import authenticate
+from pprint import pprint
+import authenticate
 
 client = discord.Client()
-token = os.getenv('token')
-
-reddit = praw.Reddit(
-    client_id=os.getenv('client_id'),
-    client_secret=os.getenv('reddit_token'),
-    user_agent='Discord Trollbot')
-
+token = authenticate.disToken()
+reddit = authenticate.redditAuthenticate()
 
 @client.event
 async def on_ready():
-    logger.info(f'{client.user.name} is ready')
-    logger.info('')
-
+    print(f'{client.user.name} is ready')
+    print()
 
 @client.event
 async def on_message(message):
+
     toBot = {'currentTop': 'currentTop',
              'copyPasta': 'what\'s up mark?',
              'randomImage': 'randomImage',
@@ -32,16 +26,16 @@ async def on_message(message):
 
     username = str(message.author).split('#')[0]
     if username != str(client.user.name):
-        logger.info(f'{username} entered a command:')
+        print(f'{username} entered a command:')
 
     start = time.time()
 
     if message.author == client.user:
         return
 
-    # Links the current front page post in a particular subreddit.
+    #Links the current front page post in a particular subreddit.
     if message.content.startswith(toBot['currentTop']):
-        if ' ' in message.content:
+        if ' ' in  message.content:
             discordSubreddit = str(message.content).split(' ')[1]
 
             try:
@@ -49,17 +43,16 @@ async def on_message(message):
 
                 for submission in subreddit.hot(limit=5):
                     if not submission.stickied:
-                        discordReceive = {'title': submission.title,
-                                          'link': f'https:/www.reddit.com{submission.permalink}'}
+                        discordReceive = {'title': submission.title, 'link': f'https:/www.reddit.com{submission.permalink}'}
                         discordReceive = discordReceive['title'] + '\n' + discordReceive['link']
                         await message.channel.send(discordReceive)
                         break
 
             except Exception as e:
-                logger.info(e)
+                print(e)
                 await message.channel.send('This sub is either banned, quarantined, or does not exist.')
 
-    # Mark says a random copypasta.
+    #Mark says a random copypasta.
     if message.content.lower() == toBot['copyPasta']:
         subreddit = reddit.subreddit('copypasta')
 
@@ -71,7 +64,7 @@ async def on_message(message):
             except:
                 continue
 
-        # Loop for when the post is too long to send to the discord channel.
+        #Loop for when the post is too long to send to the discord channel.
         while True:
             try:
                 discordReceive = copyPastas[random.randint(0, len(copyPastas) - 1)]
@@ -81,9 +74,9 @@ async def on_message(message):
             except:
                 continue
 
-    # Sends random image from a subreddit.
+    #Sends random image from a subreddit.
     if message.content.startswith(toBot['randomImage']):
-        if ' ' in message.content:
+        if ' ' in  message.content:
             discordSubreddit = str(message.content).split(' ')[1]
 
             try:
@@ -94,7 +87,7 @@ async def on_message(message):
                     if submission.url.endswith('.jpg') or submission.url.endswith('.png'):
                         imageUrls.append(submission.url)
 
-                discordReceive = imageUrls[random.randint(0, len(imageUrls) - 1)]
+                discordReceive = imageUrls[random.randint(0,len(imageUrls) - 1)]
                 req.urlretrieve(discordReceive, 'tempDiscord.jpg')
                 fullPath = os.path.join(os.getcwd(), 'tempDiscord.jpg')
 
@@ -104,10 +97,10 @@ async def on_message(message):
                 os.remove('tempDiscord.jpg')
 
             except Exception as e:
-                logger.info(e)
+                print(e)
                 await message.channel.send('This sub is either banned, quarantined, or does not exist.')
 
-    # Shortcels titles.
+    #Shortcels titles.
     if message.content.lower() == toBot['cel']:
         subreddit = reddit.subreddit('shortcels')
 
@@ -129,12 +122,11 @@ async def on_message(message):
 
     try:
         for i in discordReceive.splitlines():
-            logger.info('\t' + i)
+            print('\t' + i)
     except:
         pass
 
-    logger.info('\n\t' + f'Run time: {time.time() - start} seconds')
-    logger.info('')
-
+    print('\n\t' + f'Run time: {time.time() - start} seconds')
+    print()
 
 client.run(token)
