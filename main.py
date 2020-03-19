@@ -1,4 +1,5 @@
 from discord.ext import commands
+from nsfw_subreddits import choose_porn_subreddits
 from utils.color_logger import *
 import discord
 import praw
@@ -47,41 +48,7 @@ async def on_ready():
 
 def choose_pornsite(query: str):
     query = query.lower()
-    porn_subreddits = []
-    if query == 'anal':
-        porn_subreddits = ['AnalGW', 'anal', 'AnalOrgasms', 'anal_gifs']
-    if query == 'hardcore':
-        porn_subreddits = ['HardcoreNSFW', 'nsfw', 'NSFW_HardGifs', 'NSFW_hardcore', 'nsfwhardcore']
-    if query == 'hentai':
-        porn_subreddits = ['hentai', 'HENTAI_GIF', 'MonsterGirl', 'PokePorn', 'NSFWgaming', 'hentaibondage',
-                           'thick_hentai', 'BokuNoEroAcademia']
-    if query == 'blowjob':
-        porn_subreddits = ['BlowJob', 'IWantToSuckCock', 'SexInFrontOfOthers', 'RedheadGifs', 'FaceFuck']
-    if query == 'webcam':
-        porn_subreddits = ['', '', '', '']
-    if query == 'toys':
-        porn_subreddits = ['', '', '', '']
-    if query == 'threesome':
-        porn_subreddits = ['', '', '', '']
-    if query == 'tattoo':
-        porn_subreddits = ['', '', '', '']
-    if query == 'striptease':
-        porn_subreddits = ['', '', '', '']
-    if query == 'squirt':
-        porn_subreddits = ['', '', '', '']
-    if query == 'russian':
-        porn_subreddits = ['', '', '', '']
-    if query == 'rough':
-        porn_subreddits = ['', '', '', '']
-    if query == 'pornstar':
-        porn_subreddits = ['', '', '', '']
-    if query == 'parody':
-        porn_subreddits = ['', '', '', '']
-    if query == 'tattoo':
-            porn_subreddits = ['', '', '', '']
-    if query == 'porn':
-        porn_subreddits = None
-
+    porn_subreddits = choose_porn_subreddits(query)
     # elegir un subreddit random de la lista de subreddits
     choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
     return choice
@@ -91,8 +58,10 @@ def choose_pornsite(query: str):
 async def porn(ctx, query='porn'):
     # await ctx.send('mmmm...')
     choice = choose_pornsite(query)
+    resp = None
     try:
-        resp = find_porn(ctx, choice)
+        if choice:
+            resp = find_porn(ctx, choice)
         if resp is not None:
             if isinstance(resp, str):  # si devuelvo un string
                 await ctx.send(resp)
@@ -100,6 +69,7 @@ async def porn(ctx, query='porn'):
             await ctx.send(file=resp(ctx))
         else:
             await ctx.send("No se ha encontrado nada")
+            # porn(ctx, query)
 
     except Exception as e:
         logger.error("Exception produced: \n{}".format(e))
