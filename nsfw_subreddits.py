@@ -35,12 +35,12 @@ fap_subreddits = ['NSFWgaming']
 
 
 def choose_porn_subreddits(query):
-    if query == 'fap':
-        return fap_subreddits
-    if query == 'porn':
-        return porn_subreddits
     if query == 'anal':
         return anal_subreddits
+    if query == 'porn':
+        return porn_subreddits
+    if query == 'fap':
+        return fap_subreddits
     if query == 'hentai':
         return hentai_subreddits
     # TODO ADD MORE LISTS
