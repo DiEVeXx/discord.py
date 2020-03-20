@@ -74,3 +74,6 @@ docs/crowdin.py
 *.jpg
 *.flac
 *.gif
+
+# REMOVE .yml files
+*.yml

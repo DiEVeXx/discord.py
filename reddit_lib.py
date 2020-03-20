@@ -27,7 +27,7 @@ def get_nsfw_gif(chosen_subreddit):
         image_urls = []
         i = 0
         # for submission in reddit.subreddit(chosen_subreddit).stream.submissions():
-        for submission in reddit.subreddit(chosen_subreddit).hot(limit=200):
+        for submission in reddit.subreddit(chosen_subreddit).hot(limit=50):
             # logger.info(f'Submission: {submission}')
             # logger.info(f"submission url: {submission.url}")
             image_urls.append(submission.url)

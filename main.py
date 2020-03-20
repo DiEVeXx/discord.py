@@ -38,33 +38,65 @@ async def on_ready():
 
 
 @bot.command()
-async def cosplay(ctx, query='cosplay'):
-    return await ctx.send(search_porn(ctx, query))
+async def webcam(ctx):
+    """finds nsfw webcam post in subreddits"""
+    return await ctx.send(search_porn('webcam'))
 
 
 @bot.command()
-async def hentai(ctx, query='hentai'):
-    return await ctx.send(search_porn(ctx, query))
+async def cosplay(ctx):
+    """finds nsfw cosplayers post in subreddits"""
+    return await ctx.send(search_porn('cosplay'))
 
 
 @bot.command()
-async def anal(ctx, query='anal'):
-    return await ctx.send(search_porn(ctx, query))
+async def boobies(ctx):
+    """finds nsfw boobies post in subreddits"""
+    return await ctx.send(search_porn('boobies'))
 
 
 @bot.command()
-async def fap(ctx, query='fap'):
-    return await ctx.send(search_porn(ctx, query))
+async def hentai(ctx):
+    """finds nsfw hentai post in subreddits"""
+    return await ctx.send(search_porn('hentai'))
+
+
+@bot.command()
+async def anal(ctx):
+    """finds nsfw anal post in subreddits"""
+    return await ctx.send(search_porn('anal'))
+
+
+@bot.command()
+async def fap(ctx):
+    """finds nsfw gaming post in subreddits"""
+    return await ctx.send(search_porn('fap'))
 
 
 @bot.command()
 async def hardcore(ctx, query='hardcore'):
-    return await ctx.send(search_porn(ctx, query))
+    """finds nsfw hardcore post in subreddits"""
+    return await ctx.send(search_porn(query))
+
+
+@bot.command()
+async def blowjob(ctx, query='blowjob'):
+    """finds nsfw blowjob post in subreddits"""
+    return await ctx.send(search_porn(query))
+
+
+@bot.command()
+async def wtf(ctx, query='wtf'):
+    """finds nsfw wtf post in subreddits"""
+    return await ctx.send(search_porn(query))
 
 
 @bot.command()
 async def porn(ctx, query='porn'):
-    return await ctx.send(search_porn(ctx, query))
+    """finds nsfw porn post in subreddits"""
+    return await ctx.send(search_porn(query))
+
+
 # --------------------------------------------------------------------------------
 
 
@@ -76,83 +108,30 @@ def choose_pornsite(query: str):
     return choice
 
 
-# @bot.command()
-def search_porn(ctx, query='porn'):
+def search_porn(query='porn'):
     choice = choose_pornsite(query)
     resp = None
     try:
         if choice:
-            resp = find_porn(ctx, choice)
-        if resp is not None:
-            return resp
-        else:
-            return "No se ha encontrado nada"
+            # resp = find_porn(ctx, choice)
+            return find_porn(choice)
+        # if resp is not None:
+        #     return resp
+        # else:
+        #     logger.info("No he encontrado nada, buscando porno normal....")
+        #     return search_porn(ctx, 'porn')
+        #     # return "No se ha encontrado nada"
 
     except Exception as e:
         logger.error("Exception produced: \n{}".format(e))
         return "He petao :scream:"
 
 
-def find_porn(ctx, chosen_subreddit='NSFW_GIF'):
+def find_porn(chosen_subreddit='NSFW_GIF'):
     return get_nsfw_gif(chosen_subreddit)
     # return ""
 
 
-# SOME BOT COMMAND EXAMPLES
-@bot.command()
-async def add(ctx, left: int, right: int):
-    """Adds two numbers together."""
-    await ctx.send(left + right)
-
-
-#
-#
-# @bot.command()
-# async def roll(ctx, dice: str):
-#     """Rolls a dice in NdN format."""
-#     try:
-#         rolls, limit = map(int, dice.split('d'))
-#     except Exception:
-#         await ctx.send('Format has to be in NdN!')
-#         return
-#
-#     result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
-#     await ctx.send(result)
-#
-#
-# @bot.command(description='For when you wanna settle the score some other way')
-# async def choose(ctx, *choices: str):
-#     """Chooses between multiple choices."""
-#     await ctx.send(random.choice(choices))
-#
-#
-# @bot.command()
-# async def repeat(ctx, times: int, content='repeating...'):
-#     """Repeats a message multiple times."""
-#     for i in range(times):
-#         await ctx.send(content)
-#
-#
-# @bot.command()
-# async def joined(ctx, member: discord.Member):
-#     """Says when a member joined."""
-#     await ctx.send('{0.name} joined in {0.joined_at}'.format(member))
-#
-#
-# @bot.group()
-# async def cool(ctx):
-#     """Says if a user is cool.
-#
-#     In reality this just checks if a subcommand is being invoked.
-#     """
-#     if ctx.invoked_subcommand is None:
-#         await ctx.send('No, {0.subcommand_passed} is not cool'.format(ctx))
-#
-#
-# @cool.command(name='bot')
-# async def _bot(ctx):
-#     """Is the bot cool?"""
-#     await ctx.send('Yes, the bot is cool.')
-
+# -------------------------------------MAIN---------------------------------------
 token = os.getenv('token')
 bot.run(token)

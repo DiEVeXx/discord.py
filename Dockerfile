@@ -10,5 +10,4 @@ COPY . /bot/source
 ENV PYTHONPATH /bot/source
 WORKDIR "/bot/source"
 
-CMD ["python", "botmk1"]
-# CMD ["gunicorn", "-b", "0.0.0.0:1026", "botmk1"]
+CMD ["python", "main"]
