@@ -37,13 +37,35 @@ async def on_ready():
     logger.info('-' * 45)
 
 
-#@bot.command()
-#async def anal(ctx, query='anal'):
-#    return porn(ctx, query)
+@bot.command()
+async def cosplay(ctx, query='cosplay'):
+    return await ctx.send(search_porn(ctx, query))
 
 
-#async def hardcore(ctx, query='hardcore'):
-#    return porn(ctx, query)
+@bot.command()
+async def hentai(ctx, query='hentai'):
+    return await ctx.send(search_porn(ctx, query))
+
+
+@bot.command()
+async def anal(ctx, query='anal'):
+    return await ctx.send(search_porn(ctx, query))
+
+
+@bot.command()
+async def fap(ctx, query='fap'):
+    return await ctx.send(search_porn(ctx, query))
+
+
+@bot.command()
+async def hardcore(ctx, query='hardcore'):
+    return await ctx.send(search_porn(ctx, query))
+
+
+@bot.command()
+async def porn(ctx, query='porn'):
+    return await ctx.send(search_porn(ctx, query))
+# --------------------------------------------------------------------------------
 
 
 def choose_pornsite(query: str):
@@ -54,26 +76,21 @@ def choose_pornsite(query: str):
     return choice
 
 
-@bot.command()
-async def porn(ctx, query='porn'):
-    # await ctx.send('mmmm...')
+# @bot.command()
+def search_porn(ctx, query='porn'):
     choice = choose_pornsite(query)
     resp = None
     try:
         if choice:
             resp = find_porn(ctx, choice)
         if resp is not None:
-            if isinstance(resp, str):  # si devuelvo un string
-                await ctx.send(resp)
-                return
-            await ctx.send(file=resp(ctx))
+            return resp
         else:
-            await ctx.send("No se ha encontrado nada")
-            # porn(ctx, query)
+            return "No se ha encontrado nada"
 
     except Exception as e:
         logger.error("Exception produced: \n{}".format(e))
-        await ctx.send("He petao :scream:")
+        return "He petao :scream:"
 
 
 def find_porn(ctx, chosen_subreddit='NSFW_GIF'):

@@ -9,6 +9,8 @@ hentai_subreddits = ['hentai', 'HENTAI_GIF', 'MonsterGirl', 'PokePorn', 'NSFWgam
 
 blowjob_subreddits = ['BlowJob', 'IWantToSuckCock', 'SexInFrontOfOthers', 'RedheadGifs', 'FaceFuck']
 
+boobies_subreddits = ['boobs', 'treesgonewild', 'hugeboobs','Amateur','FlashingGirls','BigBoobsGonewild', 'LegalTeens']
+
 webcam_subreddits = []
 
 toys_subreddits = []
@@ -33,6 +35,8 @@ porn_subreddits = parody_subreddits + pornstar_subreddits + rough_subreddits + r
 
 fap_subreddits = ['NSFWgaming']
 
+cosplay_subreddits = ['nsfwcosplay']
+
 
 def choose_porn_subreddits(query):
     if query == 'anal':
@@ -43,5 +47,9 @@ def choose_porn_subreddits(query):
         return fap_subreddits
     if query == 'hentai':
         return hentai_subreddits
+    if query == 'cosplay':
+        return cosplay_subreddits
+    if query == 'boobies' or query == 'boobs' or query == 'tetas':
+        return boobies_subreddits
     # TODO ADD MORE LISTS
     return porn_subreddits
