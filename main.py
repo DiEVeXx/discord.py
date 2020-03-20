@@ -1,14 +1,11 @@
+import os
+import random
+
+import discord
 from discord.ext import commands
 from nsfw_subreddits import choose_porn_subreddits
-from utils.color_logger import *
-import discord
-import praw
-import random
-import os
-import urllib.request as req
-import time
-from utils.color_logger import *
 from reddit_lib import get_nsfw_gif
+from utils.color_logger import *
 
 logger = colorlog.getLogger("Main")
 client = discord.Client()

@@ -1,14 +1,9 @@
-import colorlog
-import discord
-import praw
-import random
 import os
-import urllib.request as req
-import time
+import random
+import praw
 from utils.color_logger import *
 
 logger = colorlog.getLogger("reddit")
-import logging
 
 
 def get_nsfw_gif(chosen_subreddit):
