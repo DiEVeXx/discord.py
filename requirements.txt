@@ -1,6 +1,3 @@
-pafy
-requests
-aiohttp>=3.6.2,<3.7.0
-websockets>=8.1,!=7.0,!=8.0,!=8.0.1,<9.0
+praw
 discord.py[voice]
 colorlog
