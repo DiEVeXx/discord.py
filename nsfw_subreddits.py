@@ -7,7 +7,7 @@ hardcore_subreddits = ['HardcoreNSFW', 'nsfw', 'NSFW_HardGifs', 'NSFW_hardcore',
 hentai_subreddits = ['hentai', 'HENTAI_GIF', 'MonsterGirl', 'PokePorn', 'NSFWgaming', 'hentaibondage', 'thick_hentai',
                      'BokuNoEroAcademia']
 
-blowjob_subreddits = ['BlowJob', 'IWantToSuckCock', 'SexInFrontOfOthers', 'RedheadGifs', 'FaceFuck']
+blowjob_subreddits = ['BlowJob', 'IWantToSuckCock', 'FaceFuck']
 
 boobies_subreddits = ['boobs', 'treesgonewild', 'hugeboobs', 'BigBoobsGonewild']
 
@@ -35,10 +35,10 @@ rough_subreddits = []
 
 pornstar_subreddits = []
 
-porn_subreddits = ['LegalTeens', 'Amateur', 'FlashingGirls'] + parody_subreddits + pornstar_subreddits + \
-                  rough_subreddits + russian_subreddits + squirt_subreddits + striptease_subreddits + \
-                  tattoo_subreddits + threesome_subreddits + anal_subreddits + hardcore_subreddits + \
-                  blowjob_subreddits + webcam_subreddits + toys_subreddits  # + hentai_subreddits
+porn_subreddits = ['SexInFrontOfOthers', 'RedheadGifs', 'LegalTeens', 'Amateur', 'FlashingGirls'] + parody_subreddits + \
+                  pornstar_subreddits + rough_subreddits + russian_subreddits + squirt_subreddits + \
+                  striptease_subreddits + tattoo_subreddits + threesome_subreddits + anal_subreddits + \
+                  hardcore_subreddits + blowjob_subreddits + webcam_subreddits + toys_subreddits  # + hentai_subreddits
 
 
 def choose_porn_subreddits(query):
