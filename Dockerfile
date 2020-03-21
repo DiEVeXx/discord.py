@@ -6,7 +6,7 @@ COPY requirements.txt /bot/source/requirements.txt
 RUN pip install --no-cache-dir --trusted-host=pypi.python.org -r /bot/source/requirements.txt
 
 COPY . /bot/source
-# EXPOSE 1026
+EXPOSE 80 443
 ENV PYTHONPATH /bot/source
 WORKDIR "/bot/source"
 

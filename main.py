@@ -17,7 +17,6 @@ logger.info(f"{os.getenv('client_id')}")
 logger.info(f"{os.getenv('reddit_token')}")
 logger.info(f"{os.getenv('redir_url')}")
 logger.info("-" * 41)
-
 logger = colorlog.getLogger("Main")
 
 description = \

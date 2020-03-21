@@ -8,14 +8,14 @@
 # @return list of imags url.
 #
 #
+
+# GARBAGEEEEEEEEEEEEEEEEEEEEEE
 import random
 import re
 
 import requests
 from utils.color_logger import *
-
 logger = colorlog.getLogger("ImageImporter")
-
 request_one = None
 request_two = None
 
