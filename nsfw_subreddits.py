@@ -11,7 +11,7 @@ blowjob_subreddits = ['BlowJob', 'IWantToSuckCock', 'FaceFuck']
 
 boobies_subreddits = ['boobs', 'treesgonewild', 'hugeboobs', 'BigBoobsGonewild']
 
-parody_subreddits = ['nsfw_wtf']
+nsfw_wtf_subreddits = ['nsfw_wtf']
 
 fap_subreddits = ['NSFWgaming']
 
@@ -35,10 +35,10 @@ rough_subreddits = []
 
 pornstar_subreddits = []
 
-porn_subreddits = ['SexInFrontOfOthers', 'RedheadGifs', 'LegalTeens', 'Amateur', 'FlashingGirls'] + parody_subreddits + \
+porn_subreddits = ['SexInFrontOfOthers', 'RedheadGifs', 'LegalTeens', 'Amateur', 'FlashingGirls'] + \
                   pornstar_subreddits + rough_subreddits + russian_subreddits + squirt_subreddits + \
                   striptease_subreddits + tattoo_subreddits + threesome_subreddits + anal_subreddits + \
-                  hardcore_subreddits + blowjob_subreddits + webcam_subreddits + toys_subreddits  # + hentai_subreddits
+                  hardcore_subreddits + blowjob_subreddits + webcam_subreddits + toys_subreddits  # + hentai_subreddits + nsfw_wtf_subreddits
 
 
 def choose_porn_subreddits(query):
@@ -57,7 +57,7 @@ def choose_porn_subreddits(query):
     if query == 'blowjob':
         return blowjob_subreddits
     if query == 'wtf':
-        return parody_subreddits
+        return nsfw_wtf_subreddits
     if query == 'webcam':
         return webcam_subreddits
     # TODO ADD MORE LISTS
