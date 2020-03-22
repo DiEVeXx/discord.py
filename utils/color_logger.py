@@ -6,7 +6,7 @@ from colorlog import ColoredFormatter
 handler = colorlog.StreamHandler()
 
 formatter = ColoredFormatter(
-   "%(log_color)s%(levelname)-7s %(asctime)s.%(msecs)03d%(black)s - [%(name)s] → %(message)s",
+   "%(log_color)s%(levelname)-7s %(asctime)s.%(msecs)03d%(white)s - [%(name)s] → %(message)s",
    datefmt="%d %b %Y-%H:%M:%S",
    reset=True,
    log_colors={
