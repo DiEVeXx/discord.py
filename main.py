@@ -4,8 +4,9 @@ import random
 import discord
 from discord.ext import commands
 from nsfw_subreddits import choose_porn_subreddits
-from reddit_lib import get_nsfw_gif
+from reddit_lib import RedditLib
 from utils.color_logger import *
+from youtube_lib import Music
 
 logger = colorlog.getLogger("Main")
 client = discord.Client()
@@ -33,6 +34,7 @@ async def on_ready():
     logger.info('-' * 45)
 
 
+# ---------------------------------------------------NSFW COMMANDS------------------------------------------------------
 @bot.command()
 async def webcam(ctx):
     """finds nsfw webcam post in subreddits"""
@@ -70,30 +72,39 @@ async def fap(ctx):
 
 
 @bot.command()
-async def hardcore(ctx, query='hardcore'):
+async def hardcore(ctx):
     """finds nsfw hardcore post in subreddits"""
-    return await ctx.send(search_porn(query))
+    return await ctx.send(search_porn('hardcore'))
 
 
 @bot.command()
-async def blowjob(ctx, query='blowjob'):
+async def blowjob(ctx):
     """finds nsfw blowjob post in subreddits"""
-    return await ctx.send(search_porn(query))
+    return await ctx.send(search_porn('blowjob'))
 
 
 @bot.command()
-async def wtf(ctx, query='wtf'):
+async def wtf(ctx):
     """finds nsfw wtf post in subreddits"""
-    return await ctx.send(search_porn(query))
+    return await ctx.send(search_porn('wtf'))
 
 
 @bot.command()
 async def porn(ctx, query='porn'):
     """finds nsfw porn post in subreddits"""
+    if query != 'porn':
+        return await ctx.send(search_term(query))
     return await ctx.send(search_porn(query))
 
 
-# --------------------------------------------------------------------------------
+# -------------------------------------------------NSFW AUX FUNCS-------------------------------------------------------
+
+def search_term(query: str):
+    query = query.lower()
+    porn_subreddits = RedditLib().search_nsfw_reddit(query)
+    # elegir un subreddit random de la lista de subreddits
+    choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
+    return choice
 
 
 def choose_pornsite(query: str):
@@ -124,10 +135,11 @@ def search_porn(query='porn'):
 
 
 def find_porn(chosen_subreddit='NSFW_GIF'):
-    return get_nsfw_gif(chosen_subreddit)
+    return RedditLib().get_nsfw_gif(chosen_subreddit)
     # return ""
 
 
 # -------------------------------------MAIN---------------------------------------
 token = os.getenv('token')
+bot.add_cog(Music(bot))
 bot.run(token)
