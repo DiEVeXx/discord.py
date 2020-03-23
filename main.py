@@ -1,3 +1,4 @@
+import asyncio
 import os
 import random
 
@@ -32,6 +33,39 @@ async def on_ready():
     logger.info('-' * 45)
     logger.info('My name is {} and my user id is {}. STATE:WORKING'.format(bot.user.name, bot.user.id))
     logger.info('-' * 45)
+
+
+@client.event
+async def on_message(message):
+    if message.content.startswith('$thumb'):
+        channel = message.channel
+        await channel.send('Send me that 👍 reaction, mate')
+
+        def check(reaction, user):
+            return user == message.author and str(reaction.emoji) == '👍'
+
+        try:
+            reaction, user = await client.wait_for('reaction_add', timeout=60.0, check=check)
+        except asyncio.TimeoutError:
+            await channel.send('👎')
+        else:
+            await channel.send('👍')
+
+
+@bot.event
+async def on_member_join(member):
+    logger.info(f"new member in server {member}")
+    guild = member.guild
+    file = discord.File('./mirahijo.png')
+    if guild.system_channel is not None:
+        # to_send = f'Mira Ramón!\n{file}\notro mongolito!\nBienvenido {member.mention} al pozo  aka {guild.name}!'
+        await guild.system_channel.send(f"Mira Ramón!\t\t\t\t\t\t{member.mention}")
+        await guild.system_channel.send(file=file)
+        await guild.system_channel.send("Otro mongolito!")
+        # ret_str = str("""```css\nOtro mongolito!```""")
+        # embed = discord.Embed(title="Mira ramón!")
+        # embed.add_field(name="\t\t\t\t\t\t\t\t"+member.mention, value=ret_str)
+        # await guild.system_channel.send(embed=embed, file=file)
 
 
 # ---------------------------------------------------NSFW COMMANDS------------------------------------------------------
