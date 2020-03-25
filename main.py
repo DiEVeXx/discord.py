@@ -56,7 +56,7 @@ async def on_message(message):
 async def on_member_join(member):
     logger.info(f"new member in server {member}")
     guild = member.guild
-    file = discord.File('./mirahijo.png')
+    file = discord.File('./images/mirahijo.png')
     if guild.system_channel is not None:
         # to_send = f'Mira Ramón!\n{file}\notro mongolito!\nBienvenido {member.mention} al pozo  aka {guild.name}!'
         await guild.system_channel.send(f"Mira Ramón!\t\t\t\t\t\t{member.mention}")

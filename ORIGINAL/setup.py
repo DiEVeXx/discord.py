@@ -2,7 +2,7 @@ from setuptools import setup
 import re
 
 requirements = []
-with open('requirements.txt') as f:
+with open('../requirements.txt') as f:
   requirements = f.read().splitlines()
 
 version = ''
@@ -30,7 +30,7 @@ if version.endswith(('a', 'b', 'rc')):
         pass
 
 readme = ''
-with open('README.rst') as f:
+with open('../README.rst') as f:
     readme = f.read()
 
 extras_require = {
