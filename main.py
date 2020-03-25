@@ -134,6 +134,16 @@ async def porn(ctx, query='porn'):
 # -------------------------------------------------NSFW AUX FUNCS-------------------------------------------------------
 
 def search_term(query: str):
+    """
+    search in reddit for a query
+    Parameters
+    ----------
+    query
+
+    Returns
+    -------
+
+    """
     query = query.lower()
     porn_subreddits = RedditLib().search_nsfw_reddit(query)
     # elegir un subreddit random de la lista de subreddits
@@ -142,35 +152,25 @@ def search_term(query: str):
 
 
 def choose_pornsite(query: str):
+    logger.info('QUERY IS {}'.format(query))
     query = query.lower()
     porn_subreddits = choose_porn_subreddits(query)
     # elegir un subreddit random de la lista de subreddits
-    choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
-    return choice
-
-
-def search_porn(query='porn'):
-    choice = choose_pornsite(query)
-    resp = None
-    try:
-        if choice:
-            # resp = find_porn(ctx, choice)
-            return find_porn(choice)
-        # if resp is not None:
-        #     return resp
-        # else:
-        #     logger.info("No he encontrado nada, buscando porno normal....")
-        #     return search_porn(ctx, 'porn')
-        #     # return "No se ha encontrado nada"
-
-    except Exception as e:
-        logger.error("Exception produced: \n{}".format(e))
-        return "He petao :scream:"
+    random_choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
+    logger.info('random selected choice {}'.format(random_choice))
+    return random_choice
 
 
 def find_porn(chosen_subreddit='NSFW_GIF'):
     return RedditLib().get_nsfw_gif(chosen_subreddit)
     # return ""
+
+
+def search_porn(query='porn'):
+    """"""
+    choice = choose_pornsite(query)
+    logger.info(f'Choice to return: {choice}')
+    return find_porn(choice)
 
 
 # -------------------------------------MAIN---------------------------------------

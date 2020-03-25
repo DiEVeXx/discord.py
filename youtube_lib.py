@@ -21,7 +21,6 @@ import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
-
 # Silence useless bug reports messages
 youtube_dl.utils.bug_reports_message = lambda: ''
 

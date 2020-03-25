@@ -1,4 +1,4 @@
-query = None
+from utils.color_logger import *
 
 anal_subreddits = ['AnalGW', 'anal', 'AnalOrgasms', 'anal_gifs']
 
@@ -40,25 +40,61 @@ porn_subreddits = ['SexInFrontOfOthers', 'RedheadGifs', 'LegalTeens', 'Amateur',
                   striptease_subreddits + tattoo_subreddits + threesome_subreddits + anal_subreddits + \
                   hardcore_subreddits + blowjob_subreddits + webcam_subreddits + toys_subreddits  # + hentai_subreddits + nsfw_wtf_subreddits
 
+logger = colorlog.getLogger("NSFW_SUBREDDITS")
+
+nsfw_subreddits = {
+    "anal": ['AnalGW', 'anal', 'AnalOrgasms', 'anal_gifs'],
+    "hardcore": ['HardcoreNSFW', 'nsfw', 'NSFW_HardGifs', 'NSFW_hardcore', 'nsfwhardcore'],
+    "hentai": ['hentai', 'HENTAI_GIF', 'MonsterGirl', 'PokePorn', 'NSFWgaming', 'hentaibondage', 'thick_hentai',
+               'BokuNoEroAcademia'],
+    "blowjob": ['BlowJob', 'IWantToSuckCock', 'FaceFuck'],
+    "boobies": ['boobs', 'treesgonewild', 'hugeboobs', 'BigBoobsGonewild'],
+    "wtf": ['nsfw_wtf'],
+    "fap": ['NSFWgaming'],
+    "cosplay": ['nsfwcosplay'],
+    "webcam": ['CamSluts'],
+    "toys": [],
+    "threesome": [],
+    "tattoo": [],
+    "striptease": [],
+    "squirt": [],
+    "russian": [],
+}
+nsfw_subreddits["pornstar"] = nsfw_subreddits.get('webcam')
+nsfw_subreddits["porn"] = [item for key, _list in nsfw_subreddits.items() if key != 'wtf' and key != 'hentai' for item in _list] + ['SexInFrontOfOthers', 'RedheadGifs', 'LegalTeens', 'Amateur', 'FlashingGirls']
+
+logger.info("{}".format(nsfw_subreddits.get('porn')))
 
 def choose_porn_subreddits(query):
+    """
+    returns a list of nsfw subreddits
+    Parameters
+    ----------
+    query
+
+    Returns
+    -------
+    a list of strings
+    """
     if query == 'anal':
-        return anal_subreddits
+        return nsfw_subreddits.get('anal')
+    if query == 'hardcore':
+        return nsfw_subreddits.get('hardcore')
     if query == 'porn':
-        return porn_subreddits
+        return nsfw_subreddits.get('porn')
     if query == 'fap':
-        return fap_subreddits
+        return nsfw_subreddits.get('fap')
     if query == 'hentai':
-        return hentai_subreddits
+        return nsfw_subreddits.get('hentai')
     if query == 'cosplay':
-        return cosplay_subreddits
+        return nsfw_subreddits.get('cosplay')
     if query == 'boobies' or query == 'boobs' or query == 'tetas':
-        return boobies_subreddits
+        return nsfw_subreddits.get('boobies')
     if query == 'blowjob':
-        return blowjob_subreddits
+        return nsfw_subreddits.get('blowjob')
     if query == 'wtf':
-        return nsfw_wtf_subreddits
+        return nsfw_subreddits.get('wtf')
     if query == 'webcam':
-        return webcam_subreddits
+        return nsfw_subreddits.get('webcam')
     # TODO ADD MORE LISTS
-    return porn_subreddits
+    return nsfw_subreddits['porn']
