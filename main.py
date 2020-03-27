@@ -58,7 +58,6 @@ async def on_member_join(member):
     guild = member.guild
     file = discord.File('./images/mirahijo.png')
     if guild.system_channel is not None:
-        # to_send = f'Mira Ramón!\n{file}\notro mongolito!\nBienvenido {member.mention} al pozo  aka {guild.name}!'
         await guild.system_channel.send(f"Mira Ramón!\t\t\t\t\t\t{member.mention}")
         await guild.system_channel.send(file=file)
         await guild.system_channel.send("Otro mongolito!")
@@ -72,60 +71,70 @@ async def on_member_join(member):
 @bot.command()
 async def webcam(ctx):
     """finds nsfw webcam post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('webcam'))
 
 
 @bot.command()
 async def cosplay(ctx):
     """finds nsfw cosplayers post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('cosplay'))
 
 
 @bot.command()
 async def boobies(ctx):
     """finds nsfw boobies post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('boobies'))
 
 
 @bot.command()
 async def hentai(ctx):
     """finds nsfw hentai post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('hentai'))
 
 
 @bot.command()
 async def anal(ctx):
     """finds nsfw anal post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('anal'))
 
 
 @bot.command()
 async def fap(ctx):
     """finds nsfw gaming post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('fap'))
 
 
 @bot.command()
 async def hardcore(ctx):
     """finds nsfw hardcore post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('hardcore'))
 
 
 @bot.command()
 async def blowjob(ctx):
     """finds nsfw blowjob post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('blowjob'))
 
 
 @bot.command()
 async def wtf(ctx):
     """finds nsfw wtf post in subreddits"""
+    await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('wtf'))
 
 
 @bot.command()
 async def porn(ctx, query='porn'):
     """finds nsfw porn post in subreddits"""
+    await ctx.message.add_reaction('✅')
     if query != 'porn':
         return await ctx.send(search_term(query))
     return await ctx.send(search_porn(query))
@@ -152,12 +161,10 @@ def search_term(query: str):
 
 
 def choose_pornsite(query: str):
-    logger.info('QUERY IS {}'.format(query))
     query = query.lower()
     porn_subreddits = choose_porn_subreddits(query)
     # elegir un subreddit random de la lista de subreddits
     random_choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
-    logger.info('random selected choice {}'.format(random_choice))
     return random_choice
 
 
@@ -169,7 +176,6 @@ def find_porn(chosen_subreddit='NSFW_GIF'):
 def search_porn(query='porn'):
     """"""
     choice = choose_pornsite(query)
-    logger.info(f'Choice to return: {choice}')
     return find_porn(choice)
 
 

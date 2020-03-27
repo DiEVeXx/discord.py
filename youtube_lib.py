@@ -2,12 +2,17 @@
 
 """
 Copyright (c) 2019 Valentin B.
+
 A simple music bot written in discord.py using youtube-dl.
+
 Though it's a simple example, music bots are complex and require much time and knowledge until they work perfectly.
 Use this as an example or a base for your own bot and extend it as you want. If there are any bugs, please let me know.
+
 Requirements:
+
 Python 3.5+
 pip install -U discord.py pynacl youtube-dl
+
 You also need FFmpeg in your PATH environment variable or the FFmpeg.exe binary in your bot's directory on Windows.
 """
 
@@ -21,6 +26,7 @@ import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
+
 # Silence useless bug reports messages
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -312,7 +318,6 @@ class Music(commands.Cog):
         """Summons the bot to a voice channel.
         If no channel was specified, it joins your channel.
         """
-
         if not channel and not ctx.author.voice:
             raise VoiceError('You are neither connected to a voice channel nor specified a channel to join.')
 
@@ -323,7 +328,7 @@ class Music(commands.Cog):
 
         ctx.voice_state.voice = await destination.connect()
 
-    @commands.command(name='leave', aliases=['disconnect'])
+    @commands.command(name='leave', aliases=['disconnect', 'l'])
     @commands.has_permissions(manage_guild=True)
     async def _leave(self, ctx: commands.Context):
         """Clears the queue and leaves the voice channel."""
@@ -334,7 +339,7 @@ class Music(commands.Cog):
         await ctx.voice_state.stop()
         del self.voice_states[ctx.guild.id]
 
-    @commands.command(name='volume')
+    @commands.command(name='volume', aliases=['v'])
     async def _volume(self, ctx: commands.Context, *, volume: int):
         """Sets the volume of the player."""
 
@@ -353,16 +358,15 @@ class Music(commands.Cog):
 
         await ctx.send(embed=ctx.voice_state.current.create_embed())
 
-    @commands.command(name='pause')
+    @commands.command(name='pause', aliases=['pa'])
     @commands.has_permissions(manage_guild=True)
     async def _pause(self, ctx: commands.Context):
         """Pauses the currently playing song."""
-
         if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_playing():
             ctx.voice_state.voice.pause()
             await ctx.message.add_reaction('⏯')
 
-    @commands.command(name='resume')
+    @commands.command(name='resume', aliases=['r'])
     @commands.has_permissions(manage_guild=True)
     async def _resume(self, ctx: commands.Context):
         """Resumes a currently paused song."""
@@ -371,7 +375,7 @@ class Music(commands.Cog):
             ctx.voice_state.voice.resume()
             await ctx.message.add_reaction('⏯')
 
-    @commands.command(name='stop')
+    @commands.command(name='stop', aliases=['s'])
     @commands.has_permissions(manage_guild=True)
     async def _stop(self, ctx: commands.Context):
         """Stops playing song and clears the queue."""
@@ -412,6 +416,7 @@ class Music(commands.Cog):
     @commands.command(name='queue')
     async def _queue(self, ctx: commands.Context, *, page: int = 1):
         """Shows the player's queue.
+
         You can optionally specify the page to show. Each page contains 10 elements.
         """
 
@@ -455,6 +460,7 @@ class Music(commands.Cog):
     @commands.command(name='loop')
     async def _loop(self, ctx: commands.Context):
         """Loops the currently playing song.
+
         Invoke this command again to unloop the song.
         """
 
@@ -465,11 +471,13 @@ class Music(commands.Cog):
         ctx.voice_state.loop = not ctx.voice_state.loop
         await ctx.message.add_reaction('✅')
 
-    @commands.command(name='play')
+    @commands.command(name='play', aliases=['p'])
     async def _play(self, ctx: commands.Context, *, search: str):
         """Plays a song.
+
         If there are songs in the queue, this will be queued until the
         other songs finished playing.
+
         This command automatically searches from various sites if no URL is provided.
         A list of these sites can be found here: https://rg3.github.io/youtube-dl/supportedsites.html
         """
@@ -497,4 +505,3 @@ class Music(commands.Cog):
         if ctx.voice_client:
             if ctx.voice_client.channel != ctx.author.voice.channel:
                 raise commands.CommandError('Bot is already in a voice channel.')
-

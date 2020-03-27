@@ -27,17 +27,18 @@ class RedditLib:
             for submission in self.reddit.subreddit(chosen_subreddit).hot(limit=50):
                 # logger.info(f'Submission: {submission}')
                 # logger.info(f"submission url: {submission.url}")
-                image_urls.append(submission.url)
+                if submission.media:
+                    image_urls.append(submission.url)
+                    # logger.info(f"submission media: {submission.media}")
+                    # logger.info(f"submission media_embed: {submission.media_embed}")
                 # TODO Add only this type of submissions?
-                logger.info(f"submission media: {submission.media}")
-                logger.info(f"submission media_embed: {submission.media_embed}")
             # logger.info(f"Appended urls {image_urls}")
             discord_receive = image_urls[random.randint(0, len(image_urls) - 1)]
             return discord_receive
 
         except Exception as e:
             logger.info(f"Exception caught: \n{e}")
-            return "This sub is either banned, quarantined, or does not exist."
+            return "This sub {} is either banned, quarantined, or does not exist.".format(chosen_subreddit)
 
     def search_nsfw_reddit(self, chosen_term):
         # reddit.random_subreddit(True)  # True for NSFW
