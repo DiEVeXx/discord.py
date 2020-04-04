@@ -4,7 +4,7 @@ import random
 
 import discord
 from discord.ext import commands
-from nsfw_subreddits import choose_porn_subreddits
+from nsfw_subreddits import choose_porn_subreddits, nsfw_subreddits
 from reddit_lib import RedditLib
 from utils.color_logger import *
 from youtube_lib import Music
@@ -58,7 +58,7 @@ async def on_member_join(member):
     guild = member.guild
     file = discord.File('./images/mirahijo.png')
     if guild.system_channel is not None:
-        await guild.system_channel.send(f"Mira Ramón!\t\t\t\t\t\t{member.mention}")
+        await guild.system_channel.send(f"Mira Ramón!"+'\t'*6+"{member.mention}")
         await guild.system_channel.send(file=file)
         await guild.system_channel.send("Otro mongolito!")
         # ret_str = str("""```css\nOtro mongolito!```""")
@@ -73,6 +73,20 @@ async def webcam(ctx):
     """finds nsfw webcam post in subreddits"""
     await ctx.message.add_reaction('✅')
     return await ctx.send(search_porn('webcam'))
+
+
+@bot.command()
+async def facial(ctx):
+    """finds nsfw facial post in subreddits"""
+    await ctx.message.add_reaction('✅')
+    return await ctx.send(search_porn('facial'))
+
+
+@bot.command()
+async def squirt(ctx):
+    """finds nsfw squirt post in subreddits"""
+    await ctx.message.add_reaction('✅')
+    return await ctx.send(search_porn('squirt'))
 
 
 @bot.command()
