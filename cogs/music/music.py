@@ -1,15 +1,20 @@
 """
 code from https://github.com/PapyrusThePlant/Panda/blob/master/cogs/music.py
 """
+PLAYLIST_LIMIT = 150
 import asyncio
 import functools
 import logging
 import os
 import pathlib
-
+from pyyoutube import Api
 import discord
 import discord.ext.commands as commands
 import youtube_dl
+from utils.color_logger import *
+logger = colorlog.getLogger("Music")
+
+api = Api(api_key=os.getenv('google_api'))
 
 
 def duration_to_str(duration):
@@ -57,7 +62,8 @@ class SongInfo:
         'no_warnings': True,
         'quiet': True,
         'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
-        'noplaylist': True
+        # 'noplaylist': True
+        'noplaylist': False
     }
     ytdl = youtube_dl.YoutubeDL(ytdl_opts)
 
@@ -113,6 +119,7 @@ class SongInfo:
         else:
             info_to_process = None
             for entry in sparse_info['entries']:
+                logger.info(f"entry: {entry}")
                 if entry is not None:
                     info_to_process = entry
                     break
@@ -200,10 +207,10 @@ class GuildMusicState:
     """The music state of a guild."""
 
     def __init__(self, loop):
-        self.playlist = Playlist(maxsize=50)
+        self.playlist = Playlist(maxsize=PLAYLIST_LIMIT)
         self.voice_client = None
         self.loop = loop
-        self.player_volume = 0.5
+        self.player_volume = 0.1
         self.skips = set()
         self.min_skips = 5
 
@@ -252,6 +259,51 @@ class GuildMusicState:
             self.voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(
                 self.play_next_song(next_song_info, e), self.loop).result())
             await next_song_info.channel.send(f'Now playing {next_song_info}')
+
+
+async def get_playlist(request):
+    # playlist = []
+    # try:
+    #     ydl_opts = {
+    #         'default_search': 'auto',
+    #         'format': 'bestaudio/best',
+    #         'ignoreerrors': True,
+    #         'source_address': '0.0.0.0',
+    #         'nocheckcertificate': True,
+    #         'restrictfilenames': True,
+    #         'logger': logging.getLogger(__name__),
+    #         'logtostderr': False,
+    #         'no_warnings': True,
+    #         'quiet': True,
+    #         'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    #         # 'noplaylist': True
+    #         'noplaylist': False
+    #     }
+    #     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    #
+    #         playlist_dict = ydl.extract_info(request, download=False)
+    #         for video in playlist_dict['entries']:
+    #             logger.info(f"video: {video}")
+    #             logger.info(f"webpage url is {video.get('webpage_url')}")
+    #             playlist.append(video.get('webpage_url'))
+    # finally:
+    #     return playlist
+    import urllib.parse as urlparse
+    from urllib.parse import parse_qs
+    parsed = urlparse.urlparse(request)
+    urls = []
+    try:
+        print(f"RAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOON \n{parse_qs(parsed.query)['list']}")
+        _id = parse_qs(parsed.query)['list']
+        playlists_by_id = api.get_playlist_items(playlist_id=_id[0], count=PLAYLIST_LIMIT)
+        for item in playlists_by_id.items:
+            id = item.snippet.resourceId.videoId
+            logger.info(f"IDDDDDDDDDDDDDD!!! {id}")
+            urls.append('https://www.youtube.com/watch?v='+str(id))
+        logger.info(playlists_by_id.items)
+        logger.info(f"urls appended: {urls}")
+    finally:
+        return urls
 
 
 class Music(commands.Cog):
@@ -323,28 +375,42 @@ class Music(commands.Cog):
         List of supported sites : https://ytdl-org.github.io/youtube-dl/supportedsites.html
         """
         await ctx.message.add_reaction('\N{HOURGLASS}')
-
-        # Create the SongInfo
-        song = await SongInfo.create(request, ctx.author, ctx.channel, loop=ctx.bot.loop)
+        logger.info(f"request: {request}")
+        playlist = await get_playlist(request)
+        songs = []
+        if len(playlist) > 0:
+            logger.info(f"request is a playlist")
+            for song in playlist:
+                song = await SongInfo.create(song, ctx.author, ctx.channel, loop=ctx.bot.loop)
+                songs.append(song)
+        else:
+            logger.info(f"request is not a playlist")
+            # Create the SongInfo
+            song = await SongInfo.create(request, ctx.author, ctx.channel, loop=ctx.bot.loop)
+            songs.append(song)
 
         # Connect to the voice channel if needed
         if ctx.voice_client is None or not ctx.voice_client.is_connected():
             await ctx.invoke(self.join)
 
-        # Add the info to the playlist
-        try:
-            ctx.music_state.playlist.add_song(song)
-        except asyncio.QueueFull:
-            raise MusicError('Playlist is full, try again later.')
+        for song in songs:
+            # Add the info to the playlist
+            try:
+                ctx.music_state.playlist.add_song(song)
+            except asyncio.QueueFull:
+                raise MusicError('Playlist is full, try again later.')
 
-        if not ctx.music_state.is_playing():
-            # Download the song and play it
-            await song.download(ctx.bot.loop)
-            await ctx.music_state.play_next_song()
-        else:
-            # Schedule the song's download
-            ctx.bot.loop.create_task(song.download(ctx.bot.loop))
-            await ctx.send(f'Queued {song} in position **#{ctx.music_state.playlist.qsize()}**')
+            if not ctx.music_state.is_playing():
+                # Download the song and play it
+                await song.download(ctx.bot.loop)
+                await ctx.music_state.play_next_song()
+                playing = True
+            else:
+                # Schedule the song's download
+                ctx.bot.loop.create_task(song.download(ctx.bot.loop))
+                # await ctx.send(f'Queued {song} in position **#{ctx.music_state.playlist.qsize()}**')
+        if ctx.music_state.is_playing() or len(songs) > 1:
+            await ctx.send(f'Queued {len(songs)} songs to playlist. Total={ctx.music_state.playlist.qsize()}')
 
         await ctx.message.remove_reaction('\N{HOURGLASS}', ctx.me)
         await ctx.message.add_reaction('\N{WHITE HEAVY CHECK MARK}')
@@ -378,7 +444,7 @@ class Music(commands.Cog):
     @commands.command()
     async def volume(self, ctx, volume: int = None):
         """Sets the volume of the player, scales from 0 to 100."""
-        if volume < 0 or volume > 100:
+        if volume is None or volume < 0 or volume > 100:
             raise MusicError('The volume level has to be between 0 and 100.')
         ctx.music_state.volume = volume / 100
 
@@ -403,10 +469,9 @@ class Music(commands.Cog):
         await ctx.message.add_reaction('\N{WHITE HEAVY CHECK MARK}')
 
         # Check if the song has to be skipped
-        if len(
-                ctx.music_state.skips) > ctx.music_state.min_skips or ctx.author == ctx.music_state.current_song.requester:
-            ctx.music_state.skips.clear()
-            ctx.voice_client.stop()
+        # if len(ctx.music_state.skips) > ctx.music_state.min_skips or ctx.author == ctx.music_state.current_song.requester:
+        ctx.music_state.skips.clear()
+        ctx.voice_client.stop()
 
     @commands.command()
     @commands.has_permissions(manage_guild=True)

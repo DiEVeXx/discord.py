@@ -31,7 +31,7 @@ nsfw_subreddits["porn"] = [item for key, _list in nsfw_subreddits.items() if
                            'LegalTeens', 'Amateur', 'FlashingGirls', 'Oilporn']
 
 
-def choose_porn_subreddits(query):
+def choose_nsfw_subreddits(query):
     """
     returns a list of nsfw subreddits
     Parameters

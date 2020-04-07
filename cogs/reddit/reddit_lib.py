@@ -18,7 +18,7 @@ class RedditLib:
             nsfw='True'
         )
 
-    def get_nsfw_gif(self, chosen_subreddit):
+    def get_media_url_subreddit(self, chosen_subreddit):
         # reddit.random_subreddit(True)  # True for NSFW
         logger.info(f"Chosen Subreddit: {chosen_subreddit}")
         try:
@@ -40,7 +40,7 @@ class RedditLib:
             logger.info(f"Exception caught: \n{e}")
             return "This sub {} is either banned, quarantined, or does not exist.".format(chosen_subreddit)
 
-    def search_nsfw_reddit(self, chosen_term):
+    def search_media_subreddit(self, chosen_term):
         # reddit.random_subreddit(True)  # True for NSFW
         logger.info(f"Chosen term: {chosen_term}")
         try:

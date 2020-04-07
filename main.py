@@ -4,10 +4,10 @@ import random
 
 import discord
 from discord.ext import commands
-from nsfw_subreddits import choose_porn_subreddits, nsfw_subreddits
-from reddit_lib import RedditLib
+from cogs.reddit.nsfw_subreddits import choose_nsfw_subreddits
+from cogs.reddit.reddit_lib import RedditLib
 from utils.color_logger import *
-from music2 import Music
+from cogs.music.music import Music
 
 logger = colorlog.getLogger("Main")
 client = discord.Client()
@@ -168,7 +168,7 @@ def search_term(query: str):
 
     """
     query = query.lower()
-    porn_subreddits = RedditLib().search_nsfw_reddit(query)
+    porn_subreddits = RedditLib().search_media_subreddit(query)
     # elegir un subreddit random de la lista de subreddits
     choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
     return choice
@@ -176,14 +176,14 @@ def search_term(query: str):
 
 def choose_pornsite(query: str):
     query = query.lower()
-    porn_subreddits = choose_porn_subreddits(query)
+    porn_subreddits = choose_nsfw_subreddits(query)
     # elegir un subreddit random de la lista de subreddits
     random_choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
     return random_choice
 
 
 def find_porn(chosen_subreddit='NSFW_GIF'):
-    return RedditLib().get_nsfw_gif(chosen_subreddit)
+    return RedditLib().get_media_url_subreddit(chosen_subreddit)
     # return ""
 
 
