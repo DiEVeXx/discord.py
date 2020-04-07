@@ -262,43 +262,15 @@ class GuildMusicState:
 
 
 async def get_playlist(request):
-    # playlist = []
-    # try:
-    #     ydl_opts = {
-    #         'default_search': 'auto',
-    #         'format': 'bestaudio/best',
-    #         'ignoreerrors': True,
-    #         'source_address': '0.0.0.0',
-    #         'nocheckcertificate': True,
-    #         'restrictfilenames': True,
-    #         'logger': logging.getLogger(__name__),
-    #         'logtostderr': False,
-    #         'no_warnings': True,
-    #         'quiet': True,
-    #         'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
-    #         # 'noplaylist': True
-    #         'noplaylist': False
-    #     }
-    #     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    #
-    #         playlist_dict = ydl.extract_info(request, download=False)
-    #         for video in playlist_dict['entries']:
-    #             logger.info(f"video: {video}")
-    #             logger.info(f"webpage url is {video.get('webpage_url')}")
-    #             playlist.append(video.get('webpage_url'))
-    # finally:
-    #     return playlist
     import urllib.parse as urlparse
     from urllib.parse import parse_qs
     parsed = urlparse.urlparse(request)
     urls = []
     try:
-        print(f"RAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOON \n{parse_qs(parsed.query)['list']}")
         _id = parse_qs(parsed.query)['list']
         playlists_by_id = api.get_playlist_items(playlist_id=_id[0], count=PLAYLIST_LIMIT)
         for item in playlists_by_id.items:
             id = item.snippet.resourceId.videoId
-            logger.info(f"IDDDDDDDDDDDDDD!!! {id}")
             urls.append('https://www.youtube.com/watch?v='+str(id))
         logger.info(playlists_by_id.items)
         logger.info(f"urls appended: {urls}")
