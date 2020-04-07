@@ -7,7 +7,7 @@ from discord.ext import commands
 from nsfw_subreddits import choose_porn_subreddits, nsfw_subreddits
 from reddit_lib import RedditLib
 from utils.color_logger import *
-from music import Music
+from music2 import Music
 
 logger = colorlog.getLogger("Main")
 client = discord.Client()

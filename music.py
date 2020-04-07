@@ -249,7 +249,8 @@ class GuildMusicState:
             next_song_info = self.playlist.get_song()
             await next_song_info.wait_until_downloaded()
             source = Song(next_song_info, self.player_volume)
-            self.voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(self.play_next_song(next_song_info, e), self.loop).result())
+            self.voice_client.play(source, after=lambda e: asyncio.run_coroutine_threadsafe(
+                self.play_next_song(next_song_info, e), self.loop).result())
             await next_song_info.channel.send(f'Now playing {next_song_info}')
 
 
@@ -283,7 +284,7 @@ class Music(commands.Cog):
         try:
             await ctx.send(error)
         except discord.Forbidden:
-            pass # /shrug
+            pass  # /shrug
 
     @commands.command()
     async def status(self, ctx):
@@ -402,7 +403,8 @@ class Music(commands.Cog):
         await ctx.message.add_reaction('\N{WHITE HEAVY CHECK MARK}')
 
         # Check if the song has to be skipped
-        if len(ctx.music_state.skips) > ctx.music_state.min_skips or ctx.author == ctx.music_state.current_song.requester:
+        if len(
+                ctx.music_state.skips) > ctx.music_state.min_skips or ctx.author == ctx.music_state.current_song.requester:
             ctx.music_state.skips.clear()
             ctx.voice_client.stop()
 
