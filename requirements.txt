@@ -7,3 +7,4 @@ colorlog
 discord.py[voice]
 PyNaCl
 ffmpeg
+python-youtube

@@ -1,10 +1,8 @@
 """
 code from https://github.com/PapyrusThePlant/Panda/blob/master/cogs/music.py
 """
-PLAYLIST_LIMIT = 150
 import asyncio
 import functools
-import logging
 import os
 import pathlib
 from pyyoutube import Api
@@ -12,6 +10,8 @@ import discord
 import discord.ext.commands as commands
 import youtube_dl
 from utils.color_logger import *
+
+PLAYLIST_LIMIT = 150
 logger = colorlog.getLogger("Music")
 
 api = Api(api_key=os.getenv('google_api'))
@@ -271,7 +271,7 @@ async def get_playlist(request):
         playlists_by_id = api.get_playlist_items(playlist_id=_id[0], count=PLAYLIST_LIMIT)
         for item in playlists_by_id.items:
             id = item.snippet.resourceId.videoId
-            urls.append('https://www.youtube.com/watch?v='+str(id))
+            urls.append('https://www.youtube.com/watch?v=' + str(id))
         logger.info(playlists_by_id.items)
         logger.info(f"urls appended: {urls}")
     finally:
