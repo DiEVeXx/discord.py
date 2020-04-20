@@ -16,6 +16,9 @@ logger = colorlog.getLogger("Music")
 
 api = Api(api_key=os.getenv('google_api'))
 
+# TODO Play the first song and add the rest to the playlist (improve play perfomance)
+# TODO If a song fails, skip to next in playlist
+
 
 def duration_to_str(duration):
     """Converts a timestamp to a string representation."""
@@ -63,7 +66,9 @@ class SongInfo:
         'quiet': True,
         'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
         # 'noplaylist': True
-        'noplaylist': False
+        'noplaylist': False,
+        # 'proxy': os.getenv('proxy', '')
+        # 'proxy': '83.136.176.60:4145'
     }
     ytdl = youtube_dl.YoutubeDL(ytdl_opts)
 
@@ -274,6 +279,8 @@ async def get_playlist(request):
             urls.append('https://www.youtube.com/watch?v=' + str(id))
         logger.info(playlists_by_id.items)
         logger.info(f"urls appended: {urls}")
+    # except Exception as e:
+    #     logger.error(f"Error in get_playlist: \n{e}")
     finally:
         return urls
 
@@ -376,7 +383,6 @@ class Music(commands.Cog):
                 # Download the song and play it
                 await song.download(ctx.bot.loop)
                 await ctx.music_state.play_next_song()
-                playing = True
             else:
                 # Schedule the song's download
                 ctx.bot.loop.create_task(song.download(ctx.bot.loop))

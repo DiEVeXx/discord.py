@@ -4,7 +4,7 @@ import praw
 from utils.color_logger import *
 
 logger = colorlog.getLogger("reddit")
-
+SUBREDDIT_LIMIT = 100
 
 class RedditLib:
     def __init__(self):
@@ -24,7 +24,7 @@ class RedditLib:
         try:
             image_urls = []
             # for submission in reddit.subreddit(chosen_subreddit).stream.submissions():
-            for submission in self.reddit.subreddit(chosen_subreddit).hot(limit=50):
+            for submission in self.reddit.subreddit(chosen_subreddit).hot(limit=SUBREDDIT_LIMIT):
                 # logger.info(f'Submission: {submission}')
                 # logger.info(f"submission url: {submission.url}")
                 if submission.media:

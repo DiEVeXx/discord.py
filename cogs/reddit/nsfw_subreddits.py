@@ -3,7 +3,7 @@ from utils.color_logger import *
 logger = colorlog.getLogger("NSFW_SUBREDDITS")
 
 nsfw_subreddits = {
-    "anal": ['AnalPorn', 'AnalGW', 'anal', 'AnalOrgasms', 'anal_gifs'],
+    "anal": ['AnalPorn', 'AnalGW', 'anal', 'AnalOrgasms', 'anal_gifs', 'AnalVidz', 'Anal_Babes', 'Anal_witch', 'buttsex'],
     "hardcore": ['HardcoreNSFW', 'nsfw', 'NSFW_HardGifs', 'NSFW_hardcore', 'nsfwhardcore', 'distension', 'Pushing'],
     "hentai": ['hentai', 'HENTAI_GIF', 'MonsterGirl', 'PokePorn', 'NSFWgaming', 'hentaibondage', 'thick_hentai',
                'BokuNoEroAcademia'],
@@ -14,6 +14,9 @@ nsfw_subreddits = {
     "fap": ['NSFWgaming', 'DirtyGaming', 'girlsdoingnerdythings', ''],
     "cosplay": ['nsfwcosplay', 'cosplayonoff', 'Cosporn', 'CosplayBoobs', 'cat_girls', 'GirlswithNeonHair'],
     "webcam": ['CamSluts'],
+    "ass": ['ass', 'OiledAss'],
+    "milf": ['milfcumsluts'],
+    "nudes": ['holdthemoan'],
     "toys": [],
     "threesome": [],
     "tattoo": [],
@@ -24,11 +27,11 @@ nsfw_subreddits = {
 
 nsfw_subreddits["pornstar"] = nsfw_subreddits.get('webcam') + ['ttaylorwhite', 'PornStars', ]
 nsfw_subreddits["porn"] = [item for key, _list in nsfw_subreddits.items() if
-                           key not in ['wtf', 'hentai', 'fap', 'cosplay'] for item in _list] + \
+                           key not in ['wtf', 'hentai', 'fap', 'cosplay', 'boobies'] for item in _list] + \
                           ['nsfwHTML5', 'sexgifs', 'porngif', 'Penetration_gifs', 'porninfifteenseconds', 'NSFW_GFY',
                            'nsfwgif', 'PornGifs', 'XXX_Animated_Gifs', 'adultgifs', 'porn_gifs', 'NSFW_HTML5',
-                           '60fpsporn', 'nsfw_gifs', 'NSFW_GIF', 'carnalclass', 'SexInFrontOfOthers', 'RedheadGifs',
-                           'LegalTeens', 'Amateur', 'FlashingGirls', 'Oilporn']
+                           '60fpsporn', 'carnalclass', 'nsfw_gifs', 'NSFW_GIF', 'SexInFrontOfOthers', 'RedheadGifs',
+                           'Amateur', 'FlashingGirls', 'Oilporn', 'The_Best_NSFW_GIFS']  # 'LegalTeens'
 
 
 def choose_nsfw_subreddits(query):
@@ -64,5 +67,11 @@ def choose_nsfw_subreddits(query):
         return nsfw_subreddits.get('squirt')
     if query == 'facial':
         return nsfw_subreddits.get('facial')
+    if query == 'pornstar':
+        return nsfw_subreddits.get('pornstar')
+    if query == 'nudes':
+        return nsfw_subreddits.get('nudes')
+    if query == 'milf':
+        return nsfw_subreddits.get('milf')
     # TODO ADD MORE LISTS
     return nsfw_subreddits['porn']

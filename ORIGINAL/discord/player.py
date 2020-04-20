@@ -538,6 +538,7 @@ class PCMVolumeTransformer(AudioSource):
         ret = self.original.read()
         return audioop.mul(ret, 2, min(self._volume, 2.0))
 
+
 class AudioPlayer(threading.Thread):
     DELAY = OpusEncoder.FRAME_LENGTH / 1000.0
 

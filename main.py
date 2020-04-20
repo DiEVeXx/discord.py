@@ -1,43 +1,40 @@
 import asyncio
 import os
-import random
-
 import discord
 from discord.ext import commands
-from cogs.reddit.nsfw_subreddits import choose_nsfw_subreddits
-from cogs.reddit.reddit_lib import RedditLib
+from cogs.reddit.nsfw import Nsfw
 from utils.color_logger import *
 from cogs.music.music import Music
 
 logger = colorlog.getLogger("Main")
 client = discord.Client()
 token = os.getenv('token')
-logger.info("-" * 15 + "Discord Envs" + "-" * 15)
+logger.info("-" * 40 + "Discord Envs" + "-" * 40)
 logger.info(f"token {token}")
-logger.info("-" * 15 + "Reddit Envs" + "-" * 15)
+logger.info("-" * 40 + "Reddit Envs" + "-" * 40)
 logger.info(f"{os.getenv('client_id')}")
 logger.info(f"{os.getenv('reddit_token')}")
 logger.info(f"{os.getenv('redir_url')}")
-logger.info("-" * 41)
+logger.info("-" * 90)
 logger = colorlog.getLogger("Main")
 
 description = \
-    '''An example bot to showcase the discord.ext.commands extension module.
-
-There are a number of utility commands being showcased here.'''
+    '''A simple bot based on Rapptz/discord.py with some NSFW utilities 😜 and improved music! 🎵\nGithub: 
+    DiEVeXx/discord.py '''
 bot = commands.Bot(command_prefix='pls ', description=description)
 
 
 @bot.event
 async def on_ready():
-    logger.info('-' * 45)
-    logger.info('My name is {} and my user id is {}. STATE:WORKING'.format(bot.user.name, bot.user.id))
-    logger.info('-' * 45)
+    logger.info('-' * 90)
+    logger.info('My name is {} and my user id is {}.\tSTATE:WORKING'.format(bot.user.name, bot.user.id))
+    logger.info('-' * 90)
 
 
+# Not Working Currently
 @client.event
 async def on_message(message):
-    if message.content.startswith('$thumb'):
+    if message.content.startswith('thumb'):
         channel = message.channel
         await channel.send('Send me that 👍 reaction, mate')
 
@@ -66,134 +63,8 @@ async def on_member_join(member):
         # embed.add_field(name="\t\t\t\t\t\t\t\t"+member.mention, value=ret_str)
         # await guild.system_channel.send(embed=embed, file=file)
 
-
-# ---------------------------------------------------NSFW COMMANDS------------------------------------------------------
-@bot.command()
-async def webcam(ctx):
-    """finds nsfw webcam post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('webcam'))
-
-
-@bot.command()
-async def facial(ctx):
-    """finds nsfw facial post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('facial'))
-
-
-@bot.command()
-async def squirt(ctx):
-    """finds nsfw squirt post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('squirt'))
-
-
-@bot.command()
-async def cosplay(ctx):
-    """finds nsfw cosplayers post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('cosplay'))
-
-
-@bot.command()
-async def boobies(ctx):
-    """finds nsfw boobies post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('boobies'))
-
-
-@bot.command()
-async def hentai(ctx):
-    """finds nsfw hentai post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('hentai'))
-
-
-@bot.command()
-async def anal(ctx):
-    """finds nsfw anal post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('anal'))
-
-
-@bot.command()
-async def fap(ctx):
-    """finds nsfw gaming post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('fap'))
-
-
-@bot.command()
-async def hardcore(ctx):
-    """finds nsfw hardcore post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('hardcore'))
-
-
-@bot.command()
-async def blowjob(ctx):
-    """finds nsfw blowjob post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('blowjob'))
-
-
-@bot.command()
-async def wtf(ctx):
-    """finds nsfw wtf post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    return await ctx.send(search_porn('wtf'))
-
-
-@bot.command()
-async def porn(ctx, query='porn'):
-    """finds nsfw porn post in subreddits"""
-    await ctx.message.add_reaction('✅')
-    if query != 'porn':
-        return await ctx.send(search_term(query))
-    return await ctx.send(search_porn(query))
-
-
-# -------------------------------------------------NSFW AUX FUNCS-------------------------------------------------------
-
-def search_term(query: str):
-    """
-    search in reddit for a query
-    Parameters
-    ----------
-    query
-
-    Returns
-    -------
-
-    """
-    query = query.lower()
-    porn_subreddits = RedditLib().search_media_subreddit(query)
-    # elegir un subreddit random de la lista de subreddits
-    choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
-    return choice
-
-
-def choose_pornsite(query: str):
-    query = query.lower()
-    porn_subreddits = choose_nsfw_subreddits(query)
-    # elegir un subreddit random de la lista de subreddits
-    random_choice = porn_subreddits[random.randint(0, len(porn_subreddits) - 1)]
-    return random_choice
-
-
-def find_porn(chosen_subreddit='NSFW_GIF'):
-    return RedditLib().get_media_url_subreddit(chosen_subreddit)
-    # return ""
-
-
-def search_porn(query='porn'):
-    """"""
-    choice = choose_pornsite(query)
-    return find_porn(choice)
-
-
 # -------------------------------------MAIN---------------------------------------
 token = os.getenv('token')
 bot.add_cog(Music(bot))
+bot.add_cog(Nsfw(bot))
 bot.run(token)
